@@ -10,7 +10,7 @@ public class FizzBuzzShould {
     @CsvSource({
             "1, 1",
             "2, 2",
-            "3, fizz",
+            "3, zumba",
             "4, 4",
             "5, buzz",
             "9, fizz",

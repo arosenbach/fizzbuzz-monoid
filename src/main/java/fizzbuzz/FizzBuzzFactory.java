@@ -9,13 +9,16 @@ import java.util.stream.Collectors;
 public class FizzBuzzFactory {
     private final List<Pair> pairs = Arrays.asList(
             new Pair(
-                    15,
+                    isEqualTo(3),
+                    (Integer number) -> new SayZumba()),
+            new Pair(
+                    canDivideBy(15),
                     (Integer number) -> new SayAll(Arrays.asList(new SayFizz(), new SayBuzz()))),
             new Pair(
-                    3,
+                    canDivideBy(3),
                     (Integer number) -> new SayFizz()),
             new Pair(
-                    5,
+                    canDivideBy(5),
                     (Integer number) -> new SayBuzz())
     );
 
@@ -27,11 +30,19 @@ public class FizzBuzzFactory {
                 .orElse(new SayIdentity(number));
     }
 
-    private Predicate<Pair> isPairMatching(Integer number) {
-        return (Pair pair) -> number % pair.divider == 0;
+    private Predicate<Integer> canDivideBy(final Integer divider) {
+        return (Integer input) -> input % divider == 0;
     }
 
-    private record Pair(Integer divider,
+    private Predicate<Integer> isEqualTo(final Integer number) {
+        return (Integer input) -> input == number;
+    }
+
+    private Predicate<Pair> isPairMatching(Integer number) {
+        return (Pair pair) -> pair.matches.test(number);
+    }
+
+    private record Pair(Predicate<Integer> matches,
                         Function<Integer, Say> say) {
     }
 
@@ -50,6 +61,13 @@ public class FizzBuzzFactory {
         @Override
         public String say() {
             return "fizz";
+        }
+    }
+
+    private static class SayZumba implements Say {
+        @Override
+        public String say() {
+            return "zumba";
         }
     }
 
