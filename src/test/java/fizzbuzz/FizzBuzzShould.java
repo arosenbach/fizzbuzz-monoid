@@ -3,6 +3,8 @@ package fizzbuzz;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class FizzBuzzShould {
     @ParameterizedTest
     @CsvSource({
@@ -14,6 +16,15 @@ public class FizzBuzzShould {
             "9, fizz",
             "15, fizzbuzz",
             "150, fizzbuzz"})
-    public void say(Integer number, String expected) {
+    void say(Integer number, String expected) {
+        // Arrange
+        final FizzBuzzFactory fizzBuzzFactory = new FizzBuzzFactory();
+        final FizzBuzzFactory.Say sut = fizzBuzzFactory.create(number);
+
+        // Act
+        final String output = sut.say();
+
+        // Assert
+        assertEquals(expected, output);
     }
 }
