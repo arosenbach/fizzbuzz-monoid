@@ -1,5 +1,11 @@
 plugins {
-    id 'java'
+    id("java-library")
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
 }
 
 group 'org.dojo.java'
