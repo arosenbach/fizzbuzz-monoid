@@ -1,32 +1,28 @@
 package fizzbuzz;
 
 import java.util.function.IntPredicate;
-import java.util.function.Supplier;
 
 public class Rule {
 
     private final IntPredicate condition;
-    private final Supplier<String> result;
+    private final String term;
 
-    private Rule(final IntPredicate condition, final Supplier<String> result) {
+    private Rule(final IntPredicate condition, final String term) {
         this.condition = condition;
-        this.result = result;
+        this.term = term;
 
     }
 
-    public static Rule of(final IntPredicate condition, final Supplier<String> result) {
-        return new Rule(condition, result);
+    public static Rule of(final IntPredicate condition, final String term) {
+        return new Rule(condition, term);
     }
 
     public boolean test(final Integer number) {
         return this.condition.test(number);
     }
 
-    public Supplier<String> getResultSuppliers() {
-        return result;
+    public String getTerm() {
+        return term;
     }
 
-    public static Supplier<String> combineResultSuppliers(final Supplier<String> resultSupplier1, final Supplier<String> resultSupplier2) {
-        return () -> resultSupplier1.get() + resultSupplier2.get();
-    }
 }
