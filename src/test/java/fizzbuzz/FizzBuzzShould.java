@@ -12,6 +12,7 @@ public class FizzBuzzShould {
             "3, fizz",
             "4, 4",
             "5, buzz",
+            "7, zumba",
             "9, fizz",
             "15, fizzbuzz",
             "150, fizzbuzz"})
