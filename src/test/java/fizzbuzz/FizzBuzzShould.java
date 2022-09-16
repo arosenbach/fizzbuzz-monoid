@@ -1,5 +1,6 @@
 package fizzbuzz;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -15,5 +16,8 @@ public class FizzBuzzShould {
             "15, fizzbuzz",
             "150, fizzbuzz"})
     public void say(Integer number, String expected) {
+        FizzBuzzService fizzBuzzService = new FizzBuzzService();
+        String actual = fizzBuzzService.say(number);
+        Assertions.assertEquals(expected, actual);
     }
 }
