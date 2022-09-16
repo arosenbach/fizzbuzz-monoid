@@ -1,8 +1,12 @@
 package fizzbuzz;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FizzBuzzShould {
     @ParameterizedTest
@@ -15,10 +19,11 @@ public class FizzBuzzShould {
             "7, zumba",
             "9, fizz",
             "15, fizzbuzz",
-            "150, fizzbuzz"})
+            "150, fizzbuzz",
+            "21, fizzzumba"})
     public void say(Integer number, String expected) {
         FizzBuzzService fizzBuzzService = new FizzBuzzService();
         String actual = fizzBuzzService.say(number);
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 }

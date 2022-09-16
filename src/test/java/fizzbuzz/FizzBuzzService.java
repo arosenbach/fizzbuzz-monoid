@@ -1,30 +1,25 @@
 package fizzbuzz;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.function.IntPredicate;
+import java.util.function.Supplier;
 
 public class FizzBuzzService {
-    private final List<Map.Entry<Predicate<Integer>, Function<Integer, String>>> rules = List.of(
-            Map.entry(isMultipleOf(3), (number) -> "fizz"),
-            Map.entry(isMultipleOf(5), (number) -> "buzz"),
-            Map.entry(isMultipleOf(7), (number) -> "zumba")
+    private final RulesCollection rules = new RulesCollection(
+            Rule.of(isMultipleOf(3), () -> "fizz"),
+            Rule.of(isMultipleOf(5), () -> "buzz"),
+            Rule.of(isMultipleOf(7), () -> "zumba")
     );
 
-    private static Predicate<Integer> isMultipleOf(int x) {
+    private static IntPredicate isMultipleOf(int x) {
         return (number) -> number % x == 0;
     }
 
-    public String say(Integer number) {
+    public String say(int number) {
         return rules
-                .stream()
-                .filter(entry -> entry.getKey().test(number))
-                .map(Map.Entry::getValue)
-                .map(f -> f.apply(number))
-                .collect(Collectors.joining());
+                .filter(rule -> rule.test(number))
+                .map(Rule::getResultSuppliers)
+                .reduce(Rule::combineResultSuppliers)
+                .map(Supplier::get)
+                .orElse(String.valueOf(number));
     }
 }
