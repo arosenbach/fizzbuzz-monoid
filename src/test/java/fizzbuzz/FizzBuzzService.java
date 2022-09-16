@@ -1,12 +1,13 @@
 package fizzbuzz;
 
+import java.util.List;
 import java.util.function.IntPredicate;
 
 public class FizzBuzzService {
-    private final RulesCollection rules = new RulesCollection(
-            Rule.of(isMultipleOf(3), "fizz"),
-            Rule.of(isMultipleOf(5), "buzz"),
-            Rule.of(isMultipleOf(7), "zumba")
+    private final List<Rule> rules = List.of(
+            new Rule(isMultipleOf(3), "fizz"),
+            new Rule(isMultipleOf(5), "buzz"),
+            new Rule(isMultipleOf(7), "zumba")
     );
 
     private static IntPredicate isMultipleOf(int x) {
@@ -15,6 +16,7 @@ public class FizzBuzzService {
 
     public String say(int number) {
         return rules
+                .stream()
                 .filter(rule -> rule.test(number))
                 .map(Rule::getTerm)
                 .reduce(String::concat)
