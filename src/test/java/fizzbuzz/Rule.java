@@ -1,24 +1,32 @@
 package fizzbuzz;
 
+import java.util.Optional;
 import java.util.function.IntPredicate;
 
-public class Rule {
+public abstract class Rule {
 
-    private final IntPredicate condition;
-    private final String term;
+    IntPredicate condition;
+    String term;
+    private Rule next;
 
-    public Rule(final IntPredicate condition, final String term) {
-        this.condition = condition;
-        this.term = term;
-
+    public static IntPredicate isMultipleOf(int x) {
+        return (number) -> number % x == 0;
     }
 
-    public boolean test(final Integer number) {
-        return this.condition.test(number);
+    public Rule setNext(Rule next) {
+        this.next = next;
+        return next;
     }
 
-    public String getTerm() {
-        return term;
-    }
 
+    public String apply(final int number) {
+        final String nextTerm = Optional.ofNullable(next)
+                .map(rule -> rule.apply(number))
+                .orElse("");
+        if (this.condition.test(number)) {
+            return this.term + nextTerm;
+        }
+        return nextTerm;
+
+    }
 }

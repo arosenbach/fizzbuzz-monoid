@@ -1,25 +1,13 @@
 package fizzbuzz;
 
-import java.util.List;
-import java.util.function.IntPredicate;
-
 public class FizzBuzzService {
-    private final List<Rule> rules = List.of(
-            new Rule(isMultipleOf(3), "fizz"),
-            new Rule(isMultipleOf(5), "buzz"),
-            new Rule(isMultipleOf(7), "zumba")
-    );
-
-    private static IntPredicate isMultipleOf(int x) {
-        return (number) -> number % x == 0;
-    }
 
     public String say(int number) {
-        return rules
-                .stream()
-                .filter(rule -> rule.test(number))
-                .map(Rule::getTerm)
-                .reduce(String::concat)
-                .orElse(String.valueOf(number));
+        final MultipleOf3Rule multipleOf3Rule = new MultipleOf3Rule();
+        multipleOf3Rule
+                .setNext(new MultipleOf5Rule())
+                .setNext(new MultipleOf7Rule());
+        final String term = multipleOf3Rule.apply(number);
+        return term.isEmpty() ? String.valueOf(number) : term;
     }
 }
