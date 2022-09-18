@@ -2,6 +2,8 @@ plugins {
     id("java")
 }
 
+ext.jqwikVersion = '1.6.5'
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
@@ -15,10 +17,15 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    jqwik
+}
+
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testImplementation "org.junit.jupiter:junit-jupiter-params:5.8.2"
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation "net.jqwik:jqwik:${jqwikVersion}"
 }
 
 test {
